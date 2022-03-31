@@ -1,62 +1,89 @@
 <script>
+  import { encode, decode } from 'js-base64';
   import Button from "../shared/Button.svelte";
 
-  let fields = { clientID: "", answerA: "", answerB: "" };
-  let errors = { clientID: "", answerA: "", answerB: "" };
-  let valid = false;
+  const fields = { clientID: "", merchantID: "", authAssertionHeader: "" };
+  const errors = { clientID: "", merchantID: "", authAssertionHeader: "" }; // todo
+  let valid = false; // todo
 
-  const submitHandler = () => {
-    valid = true;
-    // question
-    if (fields.question.trim().length < 5) {
-      valid = false;
-      errors.question = "Question must be at least 5 chars long";
-    } else {
-      errors.question = "";
+  function encodeThirdPartyAuth(clientID, merchantID) {
+    let authAssertionHeader = ''
+
+    if (clientID && merchantID) {
+      const auth1 = encode('{"alg":"none"}');
+      const auth2 = encode(`{"iss":${clientID},"payer_id":${merchantID}}`)
+      authAssertionHeader = `${auth1}.${auth2}.`
     }
-    // answer A
-    if (fields.answerA.trim().length < 1) {
-      valid = false;
-      errors.answerA = "Answer A cannot be empty";
-    } else {
-      errors.answerA = "";
+
+    return authAssertionHeader
+  }
+  
+  function decodeThirdPartyAuth(authAssertionHeader) {
+    let clientID = ''
+    let merchantID = ''
+
+    if (authAssertionHeader) {
+      const auth2 = authAssertionHeader.split('.')[1];
+      const decodedAuth2 = decode(auth2);  
+      const [iss, payer_id] = decodedAuth2.split(',');
+      clientID = iss.replace('{"iss":', '');
+      merchantID = payer_id.replace('"payer_id":', '').replace('}', '');
     }
-    // answer B
-    if (fields.answerB.trim().length < 1) {
-      valid = false;
-      errors.answerB = "Answer B cannot be empty";
-    } else {
-      errors.answerB = "";
-    }
-    // add new poll
-    if (valid) {
-      console.log("valid", fields);
-    }
+
+    return [ clientID, merchantID ]
+  }
+  
+  const submitEncodeHandler = () => {
+    console.log('encode');
+    valid = true; 
+    
+    // TODO form validation
+    // TODO error handling
+    
+    const { clientID, merchantID } = fields; 
+    
+    fields.authAssertionHeader = encodeThirdPartyAuth(clientID.trim(), merchantID.trim());
+  };
+    
+  const submitDecodeHandler = () => {
+    console.log('decode');
+    valid = true; 
+    
+    // TODO form validation
+    // TODO error handling
+
+    const { authAssertionHeader } = fields; 
+    
+    [ fields.clientID, fields.merchantID ] = decodeThirdPartyAuth(authAssertionHeader);    
   };
 </script>
 
-<form on:submit|preventDefault={submitHandler}>
+<form on:submit|preventDefault={submitEncodeHandler}>
   <div class="form-field">
     <label for="client-id">Client ID</label>
     <input type="text" id="client-id" bind:value={fields.clientID} />
     <div class="error">{errors.clientID}</div>
   </div>
   <div class="form-field">
-    <label for="answer-a">Answer A value:</label>
-    <input type="text" id="answer-a" bind:value={fields.answerA} />
-    <div class="error">{errors.answerA}</div>
+    <label for="merchant-id">Merchant ID</label>
+    <input type="text" id="merchant-id" bind:value={fields.merchantID} />
+    <div class="error">{errors.merchantID}</div>
   </div>
+  <Button>Encode</Button>
+</form>
+
+<form on:submit|preventDefault={submitDecodeHandler}>
   <div class="form-field">
-    <label for="answer-b">Answer B value:</label>
-    <input type="text" id="answer-b" bind:value={fields.answerB} />
-    <div class="error">{errors.answerB}</div>
+    <label for="auth-assertion-header">PayPal Auth Assertion Header</label>
+    <input type="text" id="auth-assertion-header" bind:value={fields.authAssertionHeader} />
+    <div class="error">{errors.authAssertionHeader}</div>
   </div>
-  <Button>Add Poll</Button>
+  <Button type="secondary">Decode</Button>
 </form>
 
 <style>
   form {
-    width: 400px;
+    width: 600px;
     margin: 0 auto;
     text-align: center;
   }

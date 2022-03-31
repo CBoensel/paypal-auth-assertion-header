@@ -21,17 +21,17 @@
     box-shadow: none;
   }
   .primary{
-    background: #d91b42;
+    background: #365f91;
     color: white;
   }
   .secondary{
-    background: #45c496;
+    background: #548dd4;
     color: white;
   }
   .primary.inverse{
-    color: #d91b42;
+    color: #365f91;
     background: white;
-    border: 2px solid #d91b42;
+    border: 2px solid #548dd4;
   }
   .secondary.inverse{
     color: #45c496;

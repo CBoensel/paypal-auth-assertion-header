@@ -1,5 +1,5 @@
 {
-  "name": "svelte-app",
+  "name": "paypal-auth-assertion-header",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -18,6 +18,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "js-base64": "^3.7.2",
     "sirv-cli": "^2.0.0"
   }
 }
