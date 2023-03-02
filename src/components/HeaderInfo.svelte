@@ -10,7 +10,7 @@
 <pre>
   <code>
     const part1 = base64Encode('{'{'}"alg":"none"{'}'}');
-    const part2 = base64Encode(`{'{'}"iss":${'{'}clientID{'}'},"payer_id":${'{'}merchantID{'}'}{'}'}`);
+    const part2 = base64Encode(`{'{'}"iss":"${'{'}clientID{'}"'},"payer_id":"${'{'}merchantID{'}"'}{'}'}`);
 
     console.log(`${'{'}part1{'}'}.${'{'}part2{'}'}.`)
   </code>
