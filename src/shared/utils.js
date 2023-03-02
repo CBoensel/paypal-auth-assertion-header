@@ -20,8 +20,8 @@ function decodeThirdPartyAuth(authAssertionHeader) {
     const auth2 = authAssertionHeader.split('.')[1];
     const decodedAuth2 = decode(auth2);
     const [iss, payer_id] = decodedAuth2.split(',');
-    clientID = iss.replace('{"iss":', '').replace('"', '');
-    merchantID = payer_id.replace('"payer_id":', '').replace('}', '').replace('"', '');
+    clientID = iss.replace('{"iss":', '').replaceAll('"', '');
+    merchantID = payer_id.replace('"payer_id":', '').replace('}', '').replaceAll('"', '');
   }
 
   return [clientID, merchantID];
