@@ -5,7 +5,7 @@ function encodeThirdPartyAuth(clientID, merchantID) {
 
   if (clientID && merchantID) {
     const auth1 = encode('{"alg":"none"}');
-    const auth2 = encode(`{"iss":${clientID},"payer_id":${merchantID}}`);
+    const auth2 = encode(`{"iss":"${clientID}","payer_id":"${merchantID}}"`);
     authAssertionHeader = `${auth1}.${auth2}.`;
   }
 
@@ -20,8 +20,8 @@ function decodeThirdPartyAuth(authAssertionHeader) {
     const auth2 = authAssertionHeader.split('.')[1];
     const decodedAuth2 = decode(auth2);
     const [iss, payer_id] = decodedAuth2.split(',');
-    clientID = iss.replace('{"iss":', '');
-    merchantID = payer_id.replace('"payer_id":', '').replace('}', '');
+    clientID = iss.replace('{"iss":', '').replace('"', '');
+    merchantID = payer_id.replace('"payer_id":', '').replace('}', '').replace('"', '');
   }
 
   return [clientID, merchantID];
