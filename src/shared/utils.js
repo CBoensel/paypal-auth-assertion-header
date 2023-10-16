@@ -5,7 +5,7 @@ function encodeThirdPartyAuth(clientID, merchantID) {
 
   if (clientID && merchantID) {
     const auth1 = encode('{"alg":"none"}');
-    const auth2 = encode(`{"iss":"${clientID}","payer_id":"${merchantID}}"`);
+    const auth2 = encode(`{"iss":"${clientID}","payer_id":"${merchantID}"}`);
     authAssertionHeader = `${auth1}.${auth2}.`;
   }
 
