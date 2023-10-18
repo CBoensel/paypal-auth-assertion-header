@@ -3,8 +3,10 @@
   import Footer from './components/Footer.svelte';
   import CreateHeaderForm from './components/CreateHeaderForm.svelte';
   import HeaderInfo from './components/HeaderInfo.svelte';
+  import GitHubAnimatedCorner from './components/GitHubAnimatedCorner.svelte';
 
   export let title;
+  export let github;
 </script>
 
 <svelte:head>
@@ -12,10 +14,10 @@
 </svelte:head>
 
 <Header />
+<GitHubAnimatedCorner {github} />
 <main>
   <div>
     <h1>{title}</h1>
-
     <HeaderInfo />
   </div>
 

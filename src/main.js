@@ -5,6 +5,10 @@ const app = new App({
 	props: {
 		title: 'PayPal Auth Assertion Header Demo',
 		author: 'Carsten Boensel',
+		github: {
+			orgOrUser: 'CBoensel',
+			repo: 'paypal-auth-assertion-header'
+		}
 	}
 });
 

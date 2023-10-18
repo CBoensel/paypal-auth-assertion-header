@@ -1,6 +1,6 @@
 <footer>
   <div class="copyright">
-    Copyright 2022 | PayPal Auth Assertion Header Demo
+    Copyright 2023 | PayPal Auth Assertion Header Demo
   </div>
 </footer>
 
