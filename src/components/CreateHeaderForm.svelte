@@ -1,14 +1,26 @@
 <script>
-  import { encodeThirdPartyAuth, decodeThirdPartyAuth } from "../shared/utils.js"
-  import Button from "../shared/Button.svelte";
+  import {
+    encodeThirdPartyAuth,
+    decodeThirdPartyAuth,
+  } from '../shared/utils.js';
+  import Button from '../shared/Button.svelte';
 
-  const fields = { clientID: "", merchantID: "", authAssertionHeader: "" };
+  const fields = {
+    clientID: '',
+    merchantID: '',
+    email: '',
+    authAssertionHeader: '',
+  };
 
   const submitEncodeHandler = () => {
     console.log('encode');
-    const { clientID, merchantID } = fields;
+    const { clientID, merchantID, email } = fields;
 
-    fields.authAssertionHeader = encodeThirdPartyAuth(clientID.trim(), merchantID.trim());
+    fields.authAssertionHeader = encodeThirdPartyAuth(
+      clientID.trim(),
+      merchantID.trim(),
+      email.trim(),
+    );
   };
 
   const submitDecodeHandler = () => {
@@ -16,7 +28,8 @@
 
     const { authAssertionHeader } = fields;
 
-    [ fields.clientID, fields.merchantID ] = decodeThirdPartyAuth(authAssertionHeader);
+    [fields.clientID, fields.merchantID, fields.email] =
+      decodeThirdPartyAuth(authAssertionHeader);
   };
 </script>
 
@@ -29,13 +42,21 @@
     <label for="merchant-id">Merchant ID</label>
     <input type="text" id="merchant-id" bind:value={fields.merchantID} />
   </div>
+  <div class="form-field">
+    <label for="email">Email</label>
+    <input type="text" id="email" bind:value={fields.email} />
+  </div>
   <Button>Encode</Button>
 </form>
 
 <form on:submit|preventDefault={submitDecodeHandler}>
   <div class="form-field">
     <label for="auth-assertion-header">PayPal Auth Assertion Header</label>
-    <input type="text" id="auth-assertion-header" bind:value={fields.authAssertionHeader} />
+    <input
+      type="text"
+      id="auth-assertion-header"
+      bind:value={fields.authAssertionHeader}
+    />
   </div>
   <Button type="secondary">Decode</Button>
 </form>
