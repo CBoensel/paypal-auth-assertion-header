@@ -3,11 +3,11 @@ import { encode, decode } from 'js-base64';
 function encodeThirdPartyAuth(clientID, merchantID, email) {
   let authAssertionHeader = '';
 
-  if (clientID && (merchantID || email) {
+  if (clientID && (merchantID || email)) {
     const auth1 = encode('{"alg":"none"}');
     const auth2 = merchantID
-      ? encode(`{"iss":"${clientID}","payer_id":"${merchantID}"}`) :
-      encode(`{"iss":"${clientID}","email":"${email}"}`);
+      ? encode(`{"iss":"${clientID}","payer_id":"${merchantID}"}`)
+      : encode(`{"iss":"${clientID}","email":"${email}"}`);
     authAssertionHeader = `${auth1}.${auth2}.`;
   }
 
