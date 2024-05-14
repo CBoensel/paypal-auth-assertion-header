@@ -10,8 +10,11 @@
 <pre>
   <code>
     const part1 = base64Encode('{'{'}"alg":"none"{'}'}');
-    const part2 = base64Encode(`{'{'}"iss":"${'{'}clientID{'}"'},"payer_id":"${'{'}merchantID{'}"'}{'}'}`);
-
+    // if you identify a merchant through the `payer_id`
+    let part2 = base64Encode(`{'{'}"iss":"${'{'}clientID{'}"'},"payer_id":"${'{'}merchantID{'}"'}{'}'}`);
+    // or alternatively, if you refer to a merchant through his account email
+    // @Note the changed name of the attribute
+    part2 = base64Encode(`{'{'}"iss":"${'{'}clientID{'}"'},"email":"${'{'}merchantEmail{'}"'}{'}'}`);
     console.log(`${'{'}part1{'}'}.${'{'}part2{'}'}.`)
   </code>
 </pre>
